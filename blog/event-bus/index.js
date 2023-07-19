@@ -1,16 +1,28 @@
 const express = require('express')
 const axios = require('axios')
+const cors = require('cors')
 
 const app = express()
+app.use(express.json())
+app.use(cors())
+
+const events = []
 
 app.post('/events',(req,res)=>{
-    const events = req.body;
+    const event = req.body;
 
-    axios.post('http://localhost:4000/events',events)
-    axios.post('http://localhost:4001/events',events)
-    axios.post('http://localhost:4002/events',events)
+    events.push(event)
+
+     axios.post('http://localhost:4000/events',event)
+     axios.post('http://localhost:4001/events',event)
+     axios.post('http://localhost:4002/events',event)
+     axios.post('http://localhost:4003/events',event)
 
     res.send({status:'OK'})
+})
+
+app.get('/events',(req,res)=>{
+    res.send(events)
 })
 
 app.listen(4005,()=>{
